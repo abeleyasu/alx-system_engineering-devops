@@ -1,2 +1,1 @@
-README.md
-0. My name is Betty
+0x00. Shell, basics task 0
