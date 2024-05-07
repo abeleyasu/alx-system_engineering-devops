@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Install Nginx web server and configure it
+
+# Install Nginx
+apt-get update
+apt-get install -y nginx
+
+# Make sure Nginx is listening on port 80
+sed -i 's/default_server;/default_server;\n\tlisten 80;/g' /etc/nginx/sites-available/default
+
+# Restart Nginx
+service nginx restart
+
+# Create a test HTML file with "Hello World!"
+echo "Hello World!" > /var/www/html/index.html
