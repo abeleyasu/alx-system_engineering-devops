@@ -1,2 +1,2 @@
 #!/bin/bash
-0       string  SCHOOL  School data file
+ls -m -p -A | sed 's/, /, /g' | tr -d '\n'
