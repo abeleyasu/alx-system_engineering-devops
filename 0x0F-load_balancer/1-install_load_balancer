@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# Install and configure HAproxy
+
+# Install HAproxy if not already installed
+if ! dpkg -l | grep -q haproxy; then
+    apt-get update
+    apt-get install -y haproxy
+fi
+
+# Update HAproxy configuration
+cat <<EOF > /etc/haproxy/haproxy.cfg
+frontend http_front
+    bind *:5000
+    stats uri /haproxy?stats
+    default_backend http_back
+
+backend http_back
+    balance roundrobin
+    server web-01 8a10c3e5293e:80 check
+    server web-02 8a10c3e5293e:80 check
+
+    timeout server 1m
+    timeout connect 10s
+    timeout client 1m
+EOF
+
+# Restart HAproxy to apply changes
+service haproxy restart
