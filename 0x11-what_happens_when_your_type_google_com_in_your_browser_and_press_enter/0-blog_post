@@ -1,0 +1,25 @@
+# What Happens When You Type https://www.google.com in Your Browser and Press Enter?
+
+This repository contains a blog post that explains the detailed process of what happens behind the scenes when you type `https://www.google.com` in your browser and press Enter. The blog post covers:
+
+- DNS Request
+- TCP/IP
+- Firewall
+- HTTPS/SSL
+- Load Balancer
+- Web Server
+- Application Server
+- Database
+
+## Blog Post URL
+
+[Read the blog post on Medium](your-medium-post-url)
+
+## Repository Structure
+
+- `README.md`: This file, providing an overview of the project.
+- `0-blog_post`: Contains the markdown file of the blog post.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
