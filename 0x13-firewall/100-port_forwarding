@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Ensure UFW is installed
+sudo apt update
+sudo apt install -y ufw
+
+# Backup before.rules
+sudo cp /etc/ufw/before.rules /etc/ufw/before.rules.bak
+
+# Add port forwarding rules to before.rules
+sudo sed -i '/^*filter/i \
+# Port forwarding rule\n\
+*nat\n\
+:PREROUTING ACCEPT [0:0]\n\
+:OUTPUT ACCEPT [0:0]\n\
+-A PREROUTING -p tcp --dport 8080 -j REDIRECT --to-port 80\n\
+COMMIT\n\
+' /etc/ufw/before.rules
+
+# Allow necessary ports
+sudo ufw allow 80/tcp
+sudo ufw allow 22/tcp
+sudo ufw allow 443/tcp
+
+# Enable UFW
+sudo ufw reload
+sudo ufw enable
