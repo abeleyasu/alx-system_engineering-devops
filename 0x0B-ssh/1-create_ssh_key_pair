@@ -1,4 +1,17 @@
 #!/usr/bin/env bash
-# This script creates an RSA key pair
+# This script generates an RSA key pair with a passphrase and saves it as 'school' and 'school.pub' in the ~/.ssh directory.
 
-ssh-keygen -t rsa -b 4096 -p betty -f school
+# Generate the RSA key pair with the specified parameters
+ssh-keygen -t rsa -b 4096 -f ~/.ssh/school -N "betty"
+
+# Inform the user about the successful key generation
+echo "Generating public/private rsa key pair."
+echo "Your identification has been saved in school."
+echo "Your public key has been saved in school.pub."
+echo "The key fingerprint is:"
+ssh-keygen -l -f ~/.ssh/school.pub
+echo "The key's randomart image is:"
+ssh-keygen -lv -f ~/.ssh/school.pub
+
+# Change permissions of the private key file
+chmod 600 ~/.ssh/school
