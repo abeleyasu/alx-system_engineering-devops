@@ -1,0 +1,5 @@
+#!/bin/bash
+service nginx stop
+pkill nginx
+sleep 1
+service nginx status
