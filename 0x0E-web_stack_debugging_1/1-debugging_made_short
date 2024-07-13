@@ -1,5 +1,0 @@
-#!/bin/bash
-service nginx stop
-pkill nginx
-echo "Hello, nginx is stopped" > /usr/share/nginx/html/index.html
-service nginx start
