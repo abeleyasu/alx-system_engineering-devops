@@ -1,24 +1,16 @@
 #!/usr/bin/env bash
-# This script configures Nginx to listen on port 80 and ensures it is running
+# This script configures Nginx to listen on port 80
 
-# Install Nginx if it's not already installed
-if ! which nginx > /dev/null 2>&1; then
-    apt-get update
-    apt-get install -y nginx
-fi
+# Update package list and install Nginx if it's not already installed
+apt update
+apt install -y nginx
 
-# Ensure the Nginx configuration is set to listen on port 80
-if ! grep -q "listen 80;" /etc/nginx/sites-available/default; then
-    sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/default
-    sed -i 's/listen \[::\]:80 default_server;/listen \[::\]:80;/g' /etc/nginx/sites-available/default
-fi
+# Ensure Nginx is configured to listen on port 80
+sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/default
+sed -i 's/listen \[::\]:80 default_server;/listen [::]:80;/g' /etc/nginx/sites-available/default
 
-# Restart Nginx service to apply changes
+# Start and enable Nginx service
+service nginx start
+
+# Restart Nginx to apply changes
 service nginx restart
-
-# Check if Nginx is running and listening on port 80 using ss command
-if ss -tln | grep -q ':80 '; then
-    echo "Nginx is running and configured to listen on port 80."
-else
-    echo "Failed to start Nginx. Please check the configuration."
-fi
