@@ -1,15 +1,4 @@
 #!/usr/bin/env bash
-# Start Docker daemon
-service docker.io start
-
-# Start the Docker container
-docker run -p 8080:80 -d -it holbertonschool/265-0
-
-# Wait for the container to start
-sleep 2
-
-# Get the Container ID
-container_id=$(docker ps -q)
-
-# Connect to the Docker container and start Apache service
-docker exec -ti $container_id /bin/bash -c "service apache2 start"
+# Start Apache so as to return a
+# page conatining Hello Holberton
+service apache2 start
