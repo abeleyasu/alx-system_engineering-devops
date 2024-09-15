@@ -1,16 +1,35 @@
-#!/usr/bin/env bash
-# print domains and subdomains
+#!/bin/bash
 
-print_domain_subdomain () {
-    dig "$1" | grep -A1 'ANSWER SECTION:' | sed -r "s/$1./$2/g" | awk -F" " ' NR==2 { print "The subdomain " $1 " is a " $4 " record and points to " $5 }'
+# Function to display DNS information
+get_dns_info() {
+  local subdomain=$1
+  local domain=$2
+  local record=$(dig +short $subdomain.$domain)
+  local record_type=$(dig +short -t A $subdomain.$domain | awk '{print "A"}')
+  
+  if [[ -z $record ]]; then
+    echo "No record found for $subdomain.$domain"
+  else
+    echo "The subdomain $subdomain is a $record_type record and points to $record"
+  fi
 }
 
-if [ "$#" -eq 2 ]
-then
-    print_domain_subdomain "$2.$1" "$2"
-else
-    print_domain_subdomain "www.$1" "www"
-    print_domain_subdomain "lb-01.$1" "lb-01"
-    print_domain_subdomain "web-01.$1" "web-01"
-    print_domain_subdomain "web-02.$1" "web-02"
+# Check if domain is provided
+if [ -z "$1" ]; then
+  echo "Domain is required"
+  exit 1
 fi
+
+domain=$1
+subdomain=$2
+
+# If subdomain is provided
+if [ ! -z "$subdomain" ]; then
+  get_dns_info $subdomain $domain
+else
+  # Default subdomains
+  for sub in www lb-01 web-01 web-02; do
+    get_dns_info $sub $domain
+  done
+fi
+
